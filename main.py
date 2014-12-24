@@ -18,107 +18,10 @@ import itertools
 import pyglet
 pgl = pyglet.gl
 
+from vector3D import Vector3D
+
 # Disable error checking for increased performance
 #pyglet.options['debug_gl'] = False
-
-
-class Vector3D(object):
-
-    # TODO : trouver une putain de classe vecteur toute faite.
-    # Je vais pas me faire chier à tout recoder.
-
-    def __init__(self, x, y, z):
-        # TODO : convertir en float.
-        self.x = x
-        self.y = y
-        self.z = z
-
-    def __str__(self):
-        return "".join((
-            "vect :",
-            " x:", str(self.x),
-            " y:", str(self.y),
-            " z:", str(self.z),
-        ))
-
-    def normify(self):
-        current_norm = math.sqrt(self.x ** 2 + self.y ** 2 + self.z ** 2)
-        self.x /= current_norm
-        self.y /= current_norm
-        self.z /= current_norm
-
-    def cross_product(self, v_other):
-
-        u1 = self.x
-        u2 = self.y
-        u3 = self.z
-        v1 = v_other.x
-        v2 = v_other.y
-        v3 = v_other.z
-
-        prod_x = u2*v3 - u3*v2
-        prod_y = u3*v1 - u1*v3
-        prod_z = u1*v2 - u2*v1
-
-        # http://en.wikipedia.org/wiki/Cross_product
-        return Vector3D(prod_x, prod_y, prod_z)
-
-# TODO : mettre ça dans des tests unitaires.
-test_normify = Vector3D(1.0, 2.0, 3.0)
-print("test_normify: ", test_normify)
-test_normify.normify()
-print("test_normify normé: ", test_normify)
-
-class Camera(object):
-
-    def __init__(self):
-
-        self.delta_x = 0.0
-        self.delta_y = 0.0
-
-        self.x = 0.0
-        self.y = 0.0
-        self.z = -1.0
-
-        self.v_front = Vector3D(0.0, 0.0, 1.0)
-        self.v_left = Vector3D(1.0, 0.0, 0.0)
-        self.v_up = self.v_left.cross_product(self.v_front)
-
-        # TODO : mettre ça dans des tests unitaires.
-        print("up : ", self.v_up)
-        print("left : ", self.v_front.cross_product(self.v_up))
-
-    def _refresh_vfront(self):
-        self.v_front = Vector3D(-self.x, -self.y, -self.z)
-        self.v_front.normify()
-
-    def _get_back_to_sphere(self):
-        # TODO : c'est pas plus simple de définir directement les xyz à -v_front ?
-        v_pos_to_center = Vector3D(-self.x, -self.y, -self.z)
-        v_pos_to_sphere = Vector3D(
-            v_pos_to_center.x - self.v_front.x,
-            v_pos_to_center.y - self.v_front.y,
-            v_pos_to_center.z - self.v_front.z)
-        self.x += v_pos_to_sphere.x
-        self.y += v_pos_to_sphere.y
-        self.z += v_pos_to_sphere.z
-
-    def slide_lateral(self, dist):
-        self.x += self.v_left.x * dist
-        self.y += self.v_left.y * dist
-        self.z += self.v_left.z * dist
-        self._refresh_vfront()
-        self._get_back_to_sphere()
-        self.v_left = self.v_front.cross_product(self.v_up)
-
-    def slide_longitudinal(self, dist):
-        self.x += self.v_up.x * dist
-        self.y += self.v_up.y * dist
-        self.z += self.v_up.z * dist
-        self._refresh_vfront()
-        self._get_back_to_sphere()
-        self.v_up = self.v_left.cross_product(self.v_front)
-
 
 
 def vector(gl_type, *args):
