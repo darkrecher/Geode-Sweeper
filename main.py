@@ -229,6 +229,9 @@ for elem in icosahedron_list_index_vertices_and_colors:
 
 # TODO : à mettre dans une bat belt ou quelque chose comme ça.
 def group2(iterator, count):
+    """
+    Prend ce qui sort de iterator, et en Fait des paquets de "count" elements.
+    """
     return itertools.imap(None, *([ iter(iterator) ] * count))
 
 solid_vertices = vector(pgl.GLfloat, *list_plane_vertices)
@@ -238,7 +241,9 @@ solid_colors = vector(pgl.GLfloat, *list_plane_colors)
 
 class WindowGeodeSweeper(pyglet.window.Window):
 
-    def init_geode_sweeper(self):
+    def init_geode_sweeper(self, solid_vertices, solid_colors):
+        self.solid_vertices = solid_vertices
+        self.solid_colors = solid_colors
         self.cam = Camera()
 
     def on_resize(self, width, height):
@@ -268,8 +273,8 @@ class WindowGeodeSweeper(pyglet.window.Window):
         pgl.glEnableClientState(pgl.GL_VERTEX_ARRAY)
         pgl.glEnableClientState(pgl.GL_COLOR_ARRAY)
 
-        pgl.glColorPointer(3, pgl.GL_FLOAT, 0, solid_colors)
-        pgl.glVertexPointer(3, pgl.GL_FLOAT, 0, solid_vertices)
+        pgl.glColorPointer(3, pgl.GL_FLOAT, 0, self.solid_colors)
+        pgl.glVertexPointer(3, pgl.GL_FLOAT, 0, self.solid_vertices)
         # pgl.glDrawElements(
         #     pgl.GL_TRIANGLES, len(solid_index_for_planes),
         #     pgl.GL_UNSIGNED_INT, solid_index_for_planes)
@@ -312,7 +317,7 @@ windowGeodeSweeper = WindowGeodeSweeper(
     fullscreen=False, vsync=False, resizable=True,
     height=600, width=600)
 
-windowGeodeSweeper.init_geode_sweeper()
+windowGeodeSweeper.init_geode_sweeper(solid_vertices, solid_colors)
 
 # On peut diminuer le 0.01 pour avoir une animation plus rapide.
 pyglet.clock.schedule_interval(windowGeodeSweeper.update, 0.01)
