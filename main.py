@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from __future__ import unicode_literals
+from __future__ import (unicode_literals, absolute_import,
+                        print_function, division)
 
 
 
@@ -21,17 +22,13 @@ pgl = pyglet.gl
 #pyglet.options['debug_gl'] = False
 
 
-win = pyglet.window.Window(
-    fullscreen=False, vsync=False, resizable=True,
-    height=600, width=600)
-
 class Vector3D(object):
 
     # TODO : trouver une putain de classe vecteur toute faite.
     # Je vais pas me faire chier à tout recoder.
 
     def __init__(self, x, y, z):
-        # TODO : transformer en float.
+        # TODO : convertir en float.
         self.x = x
         self.y = y
         self.z = z
@@ -68,9 +65,9 @@ class Vector3D(object):
 
 # TODO : mettre ça dans des tests unitaires.
 test_normify = Vector3D(1.0, 2.0, 3.0)
-print "test_normify: ", test_normify
+print("test_normify: ", test_normify)
 test_normify.normify()
-print "test_normify normé: ", test_normify
+print("test_normify normé: ", test_normify)
 
 class Camera(object):
 
@@ -88,14 +85,15 @@ class Camera(object):
         self.v_up = self.v_left.cross_product(self.v_front)
 
         # TODO : mettre ça dans des tests unitaires.
-        print "up : ", self.v_up
-        print "left : ", self.v_front.cross_product(self.v_up)
+        print("up : ", self.v_up)
+        print("left : ", self.v_front.cross_product(self.v_up))
 
     def _refresh_vfront(self):
         self.v_front = Vector3D(-self.x, -self.y, -self.z)
         self.v_front.normify()
 
     def _get_back_to_sphere(self):
+        # TODO : c'est pas plus simple de définir directement les xyz à -v_front ?
         v_pos_to_center = Vector3D(-self.x, -self.y, -self.z)
         v_pos_to_sphere = Vector3D(
             v_pos_to_center.x - self.v_front.x,
@@ -121,7 +119,6 @@ class Camera(object):
         self._get_back_to_sphere()
         self.v_up = self.v_left.cross_product(self.v_front)
 
-cam = Camera()
 
 
 def vector(gl_type, *args):
@@ -168,7 +165,7 @@ h_prime_sqr = math.sin(math.pi / 10.0) * math.sin((3.0 * math.pi) / 10.0)
 h_prime = math.sqrt(h_prime_sqr)
 
 h_second_sqr = 1.0 - (0.25 / (math.sin(math.pi/5)) ** 2)
-print "h_second_sqr", h_second_sqr
+print("h_second_sqr", h_second_sqr)
 h_second = math.sqrt(h_second_sqr)
 
 list_coord_crown_up = [
@@ -188,27 +185,6 @@ list_coord_crown_down = [
 ]
 
 icosahedron_list_coord = [ (0.0, -h_prime - h_second, 0.0) ] + list_coord_crown_up + list_coord_crown_down + [ (0.0, +h_prime + h_second, 0.0) ]
-#icosahedron_list_vertices = list(itertools.chain.from_iterable(icosahedron_list_coord))
-
-
-icosahedron_list_colors = (
-    # haut
-    1.0, 1.0, 1.0,
-    # couronne du haut
-    0.7, 0.7, 0.7,
-    0.0, 0.7, 0.0,
-    0.7, 0.7, 0.7,
-    0.0, 0.7, 0.0,
-    0.0, 0.7, 0.7,
-    # couronne du bas
-    0.3, 0.3, 0.3,
-    0.0, 0.3, 0.0,
-    0.3, 0.3, 0.3,
-    0.0, 0.3, 0.0,
-    0.0, 0.3, 0.3,
-    # bas
-    0.1, 0.1, 0.1,
-)
 
 icosahedron_list_index_vertices_and_colors = (
     # couronne du haut
@@ -260,70 +236,84 @@ solid_colors = vector(pgl.GLfloat, *list_plane_colors)
 #solid_vertices = (GLfloat * len(list_plane_vertices))(*list_plane_vertices)
 #solid_colors = (GLfloat * len(list_plane_colors))(*list_plane_colors)
 
+class WindowGeodeSweeper(pyglet.window.Window):
 
-@win.event
-def on_resize(width, height):
-    pgl.glViewport(0, 0, width, height)
-    pgl.glMatrixMode(pgl.GL_PROJECTION)
-    pgl.glLoadIdentity()
-    # TODO : width/height
-    pgl.gluPerspective(40.0, 1.0, 1.0, 40.0)
-    return pyglet.event.EVENT_HANDLED
+    def init_geode_sweeper(self):
+        self.cam = Camera()
 
-@win.event
-def on_draw():
+    def on_resize(self, width, height):
+        pgl.glViewport(0, 0, width, height)
+        pgl.glMatrixMode(pgl.GL_PROJECTION)
+        pgl.glLoadIdentity()
+        # TODO : width/height
+        pgl.gluPerspective(40.0, 1.0, 1.0, 40.0)
+        return pyglet.event.EVENT_HANDLED
 
-    pgl.glClearColor(0.0, 0.0, 0.0, 1)
-    pgl.glClear(pgl.GL_COLOR_BUFFER_BIT | pgl.GL_DEPTH_BUFFER_BIT)
+    def on_draw(self):
 
-    pgl.glMatrixMode(pgl.GL_MODELVIEW)
-    pgl.glLoadIdentity()
-    pgl.gluLookAt(cam.x * 15, cam.y * 15, cam.z * 15,   0, 0, 0,   cam.v_up.x, cam.v_up.y, cam.v_up.z)
-    pgl.glScalef(3.0, 3.0, 3.0)
+        # TODO : on n'a besoin de le faire qu'une fois au début, ça.
+        pgl.glEnable(pgl.GL_DEPTH_TEST)
 
-    pgl.glEnableClientState(pgl.GL_VERTEX_ARRAY)
-    pgl.glEnableClientState(pgl.GL_COLOR_ARRAY)
+        pgl.glClearColor(0.0, 0.0, 0.0, 1)
+        pgl.glClear(pgl.GL_COLOR_BUFFER_BIT | pgl.GL_DEPTH_BUFFER_BIT)
 
-    pgl.glColorPointer(3, pgl.GL_FLOAT, 0, solid_colors)
-    pgl.glVertexPointer(3, pgl.GL_FLOAT, 0, solid_vertices)
-    # glDrawElements(
-    #     GL_TRIANGLES, len(solid_index_for_planes),
-    #     GL_UNSIGNED_INT, solid_index_for_planes)
+        pgl.glMatrixMode(pgl.GL_MODELVIEW)
+        pgl.glLoadIdentity()
+        pgl.gluLookAt(
+            self.cam.x * 15, self.cam.y * 15, self.cam.z * 15,
+            0, 0, 0,
+            self.cam.v_up.x, self.cam.v_up.y, self.cam.v_up.z)
+        pgl.glScalef(3.0, 3.0, 3.0)
 
-    # Attention au dernier param ! On n'indique pas le nombre d'élément du tableau, mais le nombre d'objets qu'on veut dessiner.
-    # C'est pas comme glDrawElements.
-    pgl.glDrawArrays(pgl.GL_TRIANGLES, 0, len(solid_vertices) // 3)
+        pgl.glEnableClientState(pgl.GL_VERTEX_ARRAY)
+        pgl.glEnableClientState(pgl.GL_COLOR_ARRAY)
 
-    pgl.glDisableClientState(pgl.GL_COLOR_ARRAY)
-    pgl.glDisableClientState(pgl.GL_VERTEX_ARRAY)
+        pgl.glColorPointer(3, pgl.GL_FLOAT, 0, solid_colors)
+        pgl.glVertexPointer(3, pgl.GL_FLOAT, 0, solid_vertices)
+        # pgl.glDrawElements(
+        #     pgl.GL_TRIANGLES, len(solid_index_for_planes),
+        #     pgl.GL_UNSIGNED_INT, solid_index_for_planes)
 
-@win.event
-def on_key_press(symbol, modifiers):
-    # TODO : dict avec un vecteur de déplacement ou autre chose.
-    if symbol == pyglet.window.key.RIGHT:
-        cam.delta_x = 0.05
-    elif symbol == pyglet.window.key.LEFT:
-        cam.delta_x = -0.05
-    if symbol == pyglet.window.key.UP:
-        cam.delta_y = -0.05
-    elif symbol == pyglet.window.key.DOWN:
-        cam.delta_y = 0.05
+        # Attention au dernier param ! On n'indique pas le nombre d'élément du tableau, mais le nombre d'objets qu'on veut dessiner.
+        # C'est pas comme glDrawElements.
+        pgl.glDrawArrays(pgl.GL_TRIANGLES, 0, len(solid_vertices) // 3)
 
-@win.event
-def on_key_release(symbol, modifiers):
-    if symbol in (pyglet.window.key.RIGHT, pyglet.window.key.LEFT):
-        cam.delta_x = 0.0
-    if symbol in (pyglet.window.key.UP, pyglet.window.key.DOWN):
-        cam.delta_y = 0.0
+        pgl.glDisableClientState(pgl.GL_COLOR_ARRAY)
+        pgl.glDisableClientState(pgl.GL_VERTEX_ARRAY)
 
-def update(dt):
-    if cam.delta_x != 0.0:
-        cam.slide_lateral(cam.delta_x)
-    if cam.delta_y != 0.0:
-        cam.slide_longitudinal(cam.delta_y)
+    def on_key_press(self, symbol, modifiers):
+        # TODO : dict touche -> fonction.
+        if symbol == pyglet.window.key.RIGHT:
+            self.cam.delta_x = 0.05
+        elif symbol == pyglet.window.key.LEFT:
+            self.cam.delta_x = -0.05
+        if symbol == pyglet.window.key.UP:
+            self.cam.delta_y = -0.05
+        elif symbol == pyglet.window.key.DOWN:
+            self.cam.delta_y = 0.05
+        elif symbol == pyglet.window.key.ESCAPE:
+            self.close()
 
-pgl.glEnable(pgl.GL_DEPTH_TEST)
+    def on_key_release(self, symbol, modifiers):
+        if symbol in (pyglet.window.key.RIGHT, pyglet.window.key.LEFT):
+            self.cam.delta_x = 0.0
+        if symbol in (pyglet.window.key.UP, pyglet.window.key.DOWN):
+            self.cam.delta_y = 0.0
 
-# Diminuer le 0.01 pour avoir une animation plus rapide.
-pyglet.clock.schedule_interval(update, 0.01)
+    def update(self, dt):
+        if self.cam.delta_x != 0.0:
+            self.cam.slide_lateral(self.cam.delta_x)
+        if self.cam.delta_y != 0.0:
+            self.cam.slide_longitudinal(self.cam.delta_y)
+
+
+
+windowGeodeSweeper = WindowGeodeSweeper(
+    fullscreen=False, vsync=False, resizable=True,
+    height=600, width=600)
+
+windowGeodeSweeper.init_geode_sweeper()
+
+# On peut diminuer le 0.01 pour avoir une animation plus rapide.
+pyglet.clock.schedule_interval(windowGeodeSweeper.update, 0.01)
 pyglet.app.run()
