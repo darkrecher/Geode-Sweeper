@@ -21,37 +21,34 @@ Il n'y en a pas. (Pour l'instant)
 
 # Installation (windows) #
 
-Récupérer le dernier python 2.x, par ici : https://www.python.org/downloads/
+Récupérez le dernier python 2.x, par ici : https://www.python.org/downloads/
 
 J'ai pris le 2.7.9. Le lien sur la page s'appelle "Windows x86 MSI installer"
 
 Le fichier récupéré a pour nom : python-2.7.9.msi
 
-La librairie pyglet ne marche pas avec le python 64 bits. 
-
-Un problème similaire a été rapporté sur Mac OSX 64 bits : http://stackoverflow.com/questions/16308100/enthought-canopy-64bit-on-osx-import-pyglet-gl-failure
+Prenez obligatoirement la version 32 bits, car la librairie pyglet ne marche pas avec le python 64 bits. (Un problème similaire a été rapporté sur Mac OSX 64 bits : http://stackoverflow.com/questions/16308100/enthought-canopy-64bit-on-osx-import-pyglet-gl-failure )
 
 pip est pré-installé avec le python 2.7.9, ce qui est bien sympa.
 
-Après avoir installé python, ouvrir un shell windows :
+Après avoir installé python, ouvrez un shell windows :
 
     cd c:\python27
     Scripts\pip.exe
 
 Si vous avez installé Avast, il va râler, mais acceptera d'exécuter pip au bout d'un petit moment. Des informations sur l'usage de l'outil devrait s'afficher dans la console.
 
-Commande pour installer la libraire pyglet :
+Installez la libraire pyglet, via la commande suivante :
 
     Scripts\pip.exe install pyglet
 
-Télécharger et décompresser tout le contenu de ce repository, puis revenir au shell windows.
+Téléchargez et décompressez le contenu de ce repository, puis revenez au shell windows.
 
     cd <emplacement du repository décompressé>
     
 Pour afficher le cube :
 
     c:\python27\python.exe main_cube.py
-
 
 Pour afficher l'icosaèdre :
 
