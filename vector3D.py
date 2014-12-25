@@ -2,7 +2,7 @@
 
 """
 Définit un vecteur dans un espace en 3 dimensions.
-Avec quelques fonctions de base : normage; produit en croix.
+Avec quelques fonctions de base : normage, produit en croix.
 Les fonctions de base-base (addition, multiplication) ne sont pas présentes.
 Vous avez été prévenu.
 """
@@ -26,7 +26,7 @@ class Vector3D(object):
 
     def __str__(self):
         return "".join((
-            "vect :",
+            "vect3D:",
             " x:", str(self.x),
             " y:", str(self.y),
             " z:", str(self.z),
@@ -56,7 +56,8 @@ class Vector3D(object):
 
         
 if __name__ == "__main__":
-    # TODO : mettre ça dans des tests unitaires.
+    
+    # tests unitaires.
     test_normify = Vector3D(1.0, 2.0, 3.0)
     print("test_normify: ", test_normify)
     test_normify.normify()
