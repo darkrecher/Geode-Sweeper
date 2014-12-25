@@ -1,13 +1,15 @@
 # Geode Sweeper #
 
 Exemple de 3D simple, avec python et OpenGL (librairie pyglet).
-Affiche un icosaèdre vert et blanc.
-On peut le faire tourner avec les flèches. (Pour être plus précis, c'est la caméra qui tourne autour de l'objet, et non pas l'objet qui tourne)
+
+Affiche un cube multicolore, ou un icosaèdre vert et blanc.
+
+On peut faire tourner l'objet avec les touches de direction. (Pour être plus précis, c'est la caméra qui tourne autour de l'objet, et non pas l'objet qui tourne)
 
 
 # État actuel #
 
-C'est du code "prototype". Le but, ce serait d'essayer de faire un genre de démineur en 3D sur un icosaèdre. D'où le nom : Geode Sweeper.
+C'est du code "prototype". Le but serait d'essayer de faire un genre de démineur en 3D sur un icosaèdre. D'où le nom : Geode Sweeper.
 
 Je n'ai pas prévu d'avancer ce projet pour l'instant. Mais qui sait ce que l'avenir nous réserve...
 
@@ -17,43 +19,51 @@ Je n'ai pas prévu d'avancer ce projet pour l'instant. Mais qui sait ce que l'av
 Il n'y en a pas. (Pour l'instant)
 
 
-# Installation #
+# Installation (windows) #
 
-Récupérer le dernier python 2.x
-https://www.python.org/downloads/
+Récupérer le dernier python 2.x, par ici : https://www.python.org/downloads/
 
-(j'ai pris le 2.7.9)
-"Windows x86 MSI installer"
-python-2.7.9.msi
+J'ai pris le 2.7.9. Le lien sur la page s'appelle "Windows x86 MSI installer"
 
-le 64 bits marche pas. Apparemment, il y a le même problème avec le 64 bits de Mac OSX.
-http://stackoverflow.com/questions/16308100/enthought-canopy-64bit-on-osx-import-pyglet-gl-failure
+Le fichier récupéré a pour nom : python-2.7.9.msi
+
+La librairie pyglet ne marche pas avec le python 64 bits. 
+
+Un problème similaire a été rapporté sur Mac OSX 64 bits : http://stackoverflow.com/questions/16308100/enthought-canopy-64bit-on-osx-import-pyglet-gl-failure
+
+pip est pré-installé avec le python 2.7.9, ce qui est bien sympa.
+
+Après avoir installé python, ouvrir un shell windows :
+
+    cd c:\python27
+    Scripts\pip.exe
+
+Si vous avez installé Avast, il va râler, mais acceptera d'exécuter pip au bout d'un petit moment. Des informations sur l'usage de l'outil devrait s'afficher dans la console.
+
+Commande pour installer la libraire pyglet :
+
+    Scripts\pip.exe install pyglet
+
+Télécharger et décompresser tout le contenu de ce repository, puis revenir au shell windows.
+
+    cd <emplacement du repository décompressé>
+    
+Pour afficher le cube :
+
+    c:\python27\python.exe main_cube.py
 
 
-(shell windows)
+Pour afficher l'icosaèdre :
 
-`cd c:\python27\`
-`python`
-
-ça marche.
-
-`exit()`
+    c:\python27\python.exe main_icosahedron.py
 
 
-pip est pré-installé avec le python 2.7.9, ça c'est sympa.
+# Crédits #
 
-`Scripts\pip`
+Créé par Réchèr.
 
-avast râle, mais finit par bien vouloir l'exécuter. Ça renvoit un usage.
+Le code et cette doc sont sous la double licence : Art Libre ou Creative Commons CC-BY (au choix).
 
-`Scripts\pip install pyglet`
+Repository : https://github.com/darkrecher/Geode-Sweeper
 
-Ça met du temps et ça crache un peu de log.
-
-
-`python`
-`import pyglet`
-`import pyglet.gl`
-
-ça marche.
-
+Mon blog : http://recher.wordpress.com
