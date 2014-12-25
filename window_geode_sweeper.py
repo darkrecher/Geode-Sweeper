@@ -26,9 +26,8 @@ PERIOD_GAME_CYCLE_SECONDS = 0.01
 
 class WindowGeodeSweeper(pyglet.window.Window):
 
-    def init_geode_sweeper(self, mesh_glfloat_vertices, mesh_glfloat_colors):
-        self.mesh_glfloat_vertices = mesh_glfloat_vertices
-        self.mesh_glfloat_colors = mesh_glfloat_colors
+    def init_geode_sweeper(self, mesh):
+        self.mesh = mesh
         self.cam = Camera()
         pgl.glEnable(pgl.GL_DEPTH_TEST)
 
@@ -56,8 +55,8 @@ class WindowGeodeSweeper(pyglet.window.Window):
         pgl.glEnableClientState(pgl.GL_VERTEX_ARRAY)
         pgl.glEnableClientState(pgl.GL_COLOR_ARRAY)
 
-        pgl.glColorPointer(3, pgl.GL_FLOAT, 0, self.mesh_glfloat_colors)
-        pgl.glVertexPointer(3, pgl.GL_FLOAT, 0, self.mesh_glfloat_vertices)
+        pgl.glColorPointer(3, pgl.GL_FLOAT, 0, self.mesh.glfloat_colors)
+        pgl.glVertexPointer(3, pgl.GL_FLOAT, 0, self.mesh.glfloat_vertices)
         # pgl.glDrawElements(
         #     pgl.GL_TRIANGLES, len(solid_index_for_planes),
         #     pgl.GL_UNSIGNED_INT, solid_index_for_planes)
@@ -69,7 +68,7 @@ class WindowGeodeSweeper(pyglet.window.Window):
         pgl.glDrawArrays(
             pgl.GL_TRIANGLES,
             0,
-            len(self.mesh_glfloat_vertices) // 3)
+            len(self.mesh.glfloat_vertices) // 3)
 
         pgl.glDisableClientState(pgl.GL_COLOR_ARRAY)
         pgl.glDisableClientState(pgl.GL_VERTEX_ARRAY)
