@@ -17,29 +17,12 @@ import itertools
 import pyglet
 pgl = pyglet.gl
 
+from bat_belt import ctype_array, group2
 from vector3D import Vector3D
 from camera import Camera
 
 # Disable error checking for increased performance
 #pyglet.options['debug_gl'] = False
-
-
-def vector(gl_type, *args):
-    '''
-        return a ctype array
-        GLfloat
-        GLuint
-        ...
-    '''
-    return (gl_type*len(args))(*args)
-
-
-# TODO : à mettre dans une bat belt ou quelque chose comme ça.
-def group2(iterator, count):
-    """
-    Prend ce qui sort de iterator, et en Fait des paquets de "count" elements.
-    """
-    return itertools.imap(None, *([ iter(iterator) ] * count))
 
 def build_mesh_rainbow_cube():
 
@@ -89,8 +72,8 @@ def build_mesh_rainbow_cube():
             color = colors_cube[one_index]
             mesh_colors.extend(color)
 
-    mesh_glfloat_vertices = vector(pgl.GLfloat, *mesh_vertices)
-    mesh_glfloat_colors = vector(pgl.GLfloat, *mesh_colors)
+    mesh_glfloat_vertices = ctype_array(pgl.GLfloat, *mesh_vertices)
+    mesh_glfloat_colors = ctype_array(pgl.GLfloat, *mesh_colors)
     return mesh_glfloat_vertices, mesh_glfloat_colors
     
 
@@ -159,8 +142,8 @@ def build_mesh_icosahedron():
         for _ in range(3):
             mesh_colors.extend(color)
 
-    mesh_glfloat_vertices = vector(pgl.GLfloat, *mesh_vertices)
-    mesh_glfloat_colors = vector(pgl.GLfloat, *mesh_colors)
+    mesh_glfloat_vertices = ctype_array(pgl.GLfloat, *mesh_vertices)
+    mesh_glfloat_colors = ctype_array(pgl.GLfloat, *mesh_colors)
     return mesh_glfloat_vertices, mesh_glfloat_colors
 
 
