@@ -21,28 +21,20 @@ class CameraAroundSphere(object):
         self.delta_longitudinal = 0.0        
 
     def _refresh_vfront(self):
-        # TODO : addition/multiplication de Vector3D
-        self.v_front = Vector3D(-self.pos.x, -self.pos.y, -self.pos.z)
+        self.v_front = -self.pos
         self.v_front.normify()
 
     def _get_back_to_sphere(self):
-        # TODO : addition/multiplication de Vector3D
-        self.pos = Vector3D(-self.v_front.x, -self.v_front.y, -self.v_front.z)
+        self.pos = -self.v_front
 
     def _slide_lateral(self, dist):
-        # TODO : addition/multiplication de Vector3D
-        self.pos.x += self.v_left.x * dist
-        self.pos.y += self.v_left.y * dist
-        self.pos.z += self.v_left.z * dist
+        self.pos += self.v_left * dist
         self._refresh_vfront()
         self._get_back_to_sphere()
         self.v_left = self.v_front.cross_product(self.v_up)
 
     def _slide_longitudinal(self, dist):
-        # TODO : addition/multiplication de Vector3D
-        self.pos.x += self.v_up.x * dist
-        self.pos.y += self.v_up.y * dist
-        self.pos.z += self.v_up.z * dist
+        self.pos += self.v_up * dist
         self._refresh_vfront()
         self._get_back_to_sphere()
         self.v_up = self.v_left.cross_product(self.v_front)
@@ -52,12 +44,16 @@ class CameraAroundSphere(object):
             self._slide_lateral(self.delta_lateral)
         if self.delta_longitudinal != 0.0:
             self._slide_longitudinal(self.delta_longitudinal)
-        
 
-if __name__ == "__main__":
-    
-    # tests unitaires.
+
+def main():
+    """
+    Tests unitaires (pas exhaustif du tout).
+    """
     cam = CameraAroundSphere()
     print("up : ", cam.v_up)
     print("left : ", cam.v_front.cross_product(cam.v_up))
+
+if __name__ == "__main__":
+    main()
 
