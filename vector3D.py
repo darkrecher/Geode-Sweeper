@@ -9,13 +9,17 @@ class Vector3D(object):
 
     """
     Définit un vecteur dans un espace en 3 dimensions.
-    Avec quelques fonctions de base : normage, produit en croix.
-    Les fonctions de base-base (add, multiply) ne sont pas présentes.
+    Avec quelques fonctions de base : add, multiply, normage, produit en croix.
+    Toutes les fonctions de base ne sont pas présentes (div, scalaire, ...)
     Vous avez été prévenu.
+
+    Inspiré de :
+    https://github.com/nuigroup/kivy/blob/master/kivy/vector.py
+    http://stackoverflow.com/questions/19458291/efficient-vector-point-class-in-python
     """
 
-    # TODO : trouver une putain de classe vecteur toute faite.
-    # Je vais pas me faire chier à tout recoder.
+    # TODO : finir cette classe, ou en trouver une toute faite.
+    # C'est chiant de recoder ces fonctions de base.
 
     def __init__(self, x, y, z):
         self.x = x
@@ -34,6 +38,59 @@ class Vector3D(object):
             " z:", str(self.z),
             ">",
         ))
+
+    def __add__(self, other):
+        """ v_1 + v_2 """
+        return type(self)(
+            self.x + other.x,
+            self.y + other.y,
+            self.z + other.z)
+    
+    def __iadd__(self, other):
+        """ v_1 += v_2 """
+        self.x += other.x
+        self.y += other.y
+        self.z += other.z
+        return self
+    
+    def __neg__(self):
+        """ -v_1 """
+        return type(self)(
+            -self.x,
+            -self.y,
+            -self.z)
+    
+    def __sub__(self, other):
+        """ v_1 - v_2 """
+        return type(self)(
+            self.x - other.x,
+            self.y - other.y,
+            self.z - other.z)
+
+    def __isub__(self, other):
+        """ v_1 -= v_2 """
+        self.x -= other.x
+        self.y -= other.y
+        self.z -= other.z
+        return self
+        
+    def __mul__(self, val):
+        """ v_1 * a """
+        return type(self)(
+            self.x * val,
+            self.y * val,
+            self.z * val)
+                
+    def __imul__(self, val):
+        """ v_1 *= a """
+        self.x *= val
+        self.y *= val
+        self.z *= val
+        return self
+
+    def __rmul__(self, val):
+        """ a * v_1 """
+        return (self * val)
 
     def normify(self):
         """
@@ -67,6 +124,11 @@ def main():
     """
     Tests unitaires (pas exhaustif du tout).
     """
+    test_add_1 = Vector3D(1.0, 2.0, 3.0)
+    test_add_2 = Vector3D(10.0, -20.0, 5.0)
+    print("add 1+2 : ", test_add_1 + test_add_2)
+    test_mul = Vector3D(1.0, 2.0, 3.0)
+    print("mul *10 : ", 10 * test_mul)
     test_normify = Vector3D(1.0, 2.0, 3.0)
     print("test_normify init : ", test_normify)
     test_normify.normify()
