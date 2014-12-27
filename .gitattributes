@@ -15,3 +15,6 @@
 *.PDF	 diff=astextplain
 *.rtf	 diff=astextplain
 *.RTF	 diff=astextplain
+
+# parce que je veux pas de "camel" ni de "boom" 
+# dans la page principale de mon repository
