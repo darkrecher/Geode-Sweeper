@@ -43,7 +43,7 @@ class WindowGeodeSweeper(pyglet.window.Window):
     """
     Classe principale, définissant une application pyglet.
     Voir doc de pyglet pour plus de détails. Cet exemple est quand même
-    assez simple.    
+    assez simple.
     """
 
     # --- Diverses constantes, (valeurs déterminées au feeling) ---
@@ -70,17 +70,17 @@ class WindowGeodeSweeper(pyglet.window.Window):
         À exécuter au début, juste après avoir instancié l'application.
 
         :param mesh: classe Mesh (ou dérivée). Définit l'objet 3D à afficher
-            (coordonnées des sommets, couleurs, faces, ...)                    
+            (coordonnées des sommets, couleurs, faces, ...)
         """
         self.mesh = mesh
-        self.cam = CameraAroundSphere()        
-        pgl.glEnable(pgl.GL_DEPTH_TEST)        
+        self.cam = CameraAroundSphere()
+        pgl.glEnable(pgl.GL_DEPTH_TEST)
 
     def on_resize(self, width, height):
         """
         Fonction qui s'exécute lorsque la fenêtre de l'application est
         retaillée. (Et donc, elle s'exécute forcément une fois au début,
-        à la création de la fenêtre. 
+        à la création de la fenêtre.
         Initialise/met à jour le contexte d'affichage OpenGL.
         """
         pgl.glViewport(0, 0, width, height)
@@ -111,7 +111,7 @@ class WindowGeodeSweeper(pyglet.window.Window):
         pgl.glLoadIdentity()
         cam_pos_final = self.cam.pos * WindowGeodeSweeper.DIST_CAM
         pgl.gluLookAt(
-            cam_pos_final.x, cam_pos_final.y, cam_pos_final.z, 
+            cam_pos_final.x, cam_pos_final.y, cam_pos_final.z,
             self.cam.lookat.x, self.cam.lookat.y, self.cam.lookat.z,
             self.cam.v_up.x, self.cam.v_up.y, self.cam.v_up.z)
         scale_coord = WindowGeodeSweeper.SCALE_COORD

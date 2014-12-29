@@ -31,11 +31,11 @@ class CameraAroundSphere(object):
     la seule différence, c'est le choix initial de l'axe tangeant.
 
     Variables membres intéressantes :
-    
+
     pos : Vector3D. Position du point de vue, situé sur la sphère.
     lookat : Vector3D. Point vers lequel regarde la caméra.
         En fait c'est toujours le point O
-        
+
     v_front : Vector3D. Vecteur normé, donnant la direction vers laquelle
         regarde la caméra.
     v_left : Vector3D. Vecteur normé, donnant la direction du côté gauche
@@ -50,7 +50,7 @@ class CameraAroundSphere(object):
      - Exécuter la fonction slide_with_deltas().
      - Les variables pos, v_front, v_left et v_up seront alors mises à jour.
     """
-    
+
     def __init__(self):
         self.pos = Vector3D(0.0, 0.0, -1.0)
         self.lookat = Vector3D(0.0, 0.0, 0.0)
@@ -58,7 +58,7 @@ class CameraAroundSphere(object):
         self.v_left = Vector3D(1.0, 0.0, 0.0)
         self.v_up = self.v_left.cross_product(self.v_front)
         self.delta_lateral = 0.0
-        self.delta_longitudinal = 0.0        
+        self.delta_longitudinal = 0.0
 
     def _refresh_vfront(self):
         """

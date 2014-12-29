@@ -48,7 +48,7 @@ Installez la libraire pyglet, via la commande suivante :
 Téléchargez et décompressez le contenu de ce repository, puis revenez au shell windows.
 
     cd <emplacement du repository décompressé>
-    
+
 Pour afficher le cube :
 
     c:\python27\python.exe main_cube.py

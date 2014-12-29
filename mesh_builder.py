@@ -12,8 +12,8 @@ Ces 3 classes définissent chacune un objet 3D spécifique.
 Une classe Mesh doit contenir deux variables membres :
 glfloat_vertices et glfloat_colors.
 Ces deux variables sont des arrays ctype contenant des floats.
-Les deux arrays doivent avoir le même nombre d'éléments. Ce nombre doit être un
-multiple de 9.
+Les deux arrays doivent avoir le même nombre d'éléments. Ce nombre doit être
+un multiple de 9.
 
 Pour glfloat_vertices : un paquet de 9 valeurs correspond aux coordonnées
 X, Y, Z de 3 points dans l'espace.
@@ -72,14 +72,14 @@ class MeshRainbowCube(Mesh):
 
         # Coordonnées des 8 sommets du cube.
         coords_cube = (
-            (1, 1, 1), 
-            (-1, 1, 1), 
-            (-1, -1, 1), 
-            (1, -1, 1), 
-            (1, 1, -1), 
-            (-1, 1, -1), 
-            (-1, -1, -1), 
-            (1, -1, -1), 
+            (1, 1, 1),
+            (-1, 1, 1),
+            (-1, -1, 1),
+            (1, -1, 1),
+            (1, 1, -1),
+            (-1, 1, -1),
+            (-1, -1, -1),
+            (1, -1, -1),
         )
 
         # Couleurs des 8 sommets du cube.
@@ -117,7 +117,7 @@ class MeshRainbowCube(Mesh):
         # de ces triangles, à prendre dans un paquet de 4 coordonnées.
         # 0, 1, 2 = le premier triangle.
         # 0, 2, 3 = le deuxième.
-        grouping_plane_to_triangles = (0, 1, 2, 0, 2, 3)    
+        grouping_plane_to_triangles = (0, 1, 2, 0, 2, 3)
         mesh_vertices = []
         mesh_colors = []
         for indexes_one_plane in indexes_vertex_cube_grouped_by_plane:
@@ -133,7 +133,7 @@ class MeshRainbowCube(Mesh):
 
         self.glfloat_vertices = ctype_array(pgl.GLfloat, *mesh_vertices)
         self.glfloat_colors = ctype_array(pgl.GLfloat, *mesh_colors)
-    
+
 
 class MeshIcosahedron(Mesh):
     """
@@ -149,7 +149,7 @@ class MeshIcosahedron(Mesh):
      - Encore un peu en dessous, 5 autres sommets : pentagone_down.
        Mais ce second pentagone est tourné d'un dixième de tour par rapport
        au premier. Les points des deux pentagones ne sont donc pas
-       les uns au-dessus au-dessus des autres.       
+       les uns au-dessus au-dessus des autres.
      - On prend 2 sommets adjacents du pentagone du haut et un sommet du
        pentagone du bas pour créer une face.
        De cette manière, on crée 5 autres faces, appelées : le premier
@@ -171,7 +171,7 @@ class MeshIcosahedron(Mesh):
     vert clair.
     Les faces de la couronne du bas sont vert foncé.
     """
-    
+
     def __init__(self):
 
         # Calcul de l'altitude des sommets et des pentagones.

@@ -22,7 +22,7 @@ def ctype_array(gl_type, *args):
     <bat_belt.c_float_Array_3 object at 0x01DDDF30>
     >>> ctype_array_floats[0]
     0.5
-    
+
     :param gl_type: type des données du tableau. GLfloat, GLuint, ...
     :param *args: valeurs float. Données à mettre dans le tableau de ctype.
     """

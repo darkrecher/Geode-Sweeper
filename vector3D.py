@@ -45,21 +45,21 @@ class Vector3D(object):
             self.x + other.x,
             self.y + other.y,
             self.z + other.z)
-    
+
     def __iadd__(self, other):
         """ v_1 += v_2 """
         self.x += other.x
         self.y += other.y
         self.z += other.z
         return self
-    
+
     def __neg__(self):
         """ -v_1 """
         return type(self)(
             -self.x,
             -self.y,
             -self.z)
-    
+
     def __sub__(self, other):
         """ v_1 - v_2 """
         return type(self)(
@@ -73,14 +73,14 @@ class Vector3D(object):
         self.y -= other.y
         self.z -= other.z
         return self
-        
+
     def __mul__(self, val):
         """ v_1 * a """
         return type(self)(
             self.x * val,
             self.y * val,
             self.z * val)
-                
+
     def __imul__(self, val):
         """ v_1 *= a """
         self.x *= val
@@ -133,7 +133,7 @@ def main():
     print("test_normify init : ", test_normify)
     test_normify.normify()
     print("test_normify normé : ", test_normify)
-        
+
 if __name__ == "__main__":
     main()
 
