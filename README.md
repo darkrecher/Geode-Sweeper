@@ -6,9 +6,9 @@ Affiche un cube multicolore, ou un icosaèdre vert et blanc.
 
 On peut faire tourner l'objet avec les touches de direction. (Pour être plus précis, c'est la caméra qui tourne autour de l'objet, et non pas l'objet qui tourne)
 
-![screenshot icosaèdre](http://img15.hostingpics.net/pics/803486screenshoticosahedron.png)
+![screenshot icosaèdre](https://raw.githubusercontent.com/darkrecher/Geode-Sweeper/master/screenshot_icosahedron.png)
 
-![screenshot cube](http://img15.hostingpics.net/pics/264080screenshotcube.png)
+![screenshot cube](https://raw.githubusercontent.com/darkrecher/Geode-Sweeper/master/screenshot_cube.png)
 
 # État actuel #
 
